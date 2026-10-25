@@ -2,8 +2,9 @@
 
 import { useEffect, useRef } from "react";
 import Image from "next/image";
-import { Star } from "lucide-react";
+import { AlertTriangle, Star } from "lucide-react";
 import { useStudio } from "@/components/studio/StudioProvider";
+import Skeleton from "@/components/ui/Skeleton";
 import { OPERATIONS } from "@/config/studio";
 import { cn } from "@/lib/cn";
 import { describeChange } from "@/lib/versionSummary";
@@ -25,6 +26,8 @@ export default function VersionTree({ className }) {
   const itemRefs = useRef(new Map());
   const listRef = useRef(null);
   const { rows, byId, children } = tree;
+  // Placeholder rows for branches in flight can't be selected.
+  const navigable = rows.filter((row) => !row.version.pending);
 
   // Keep the selected row in view when selection changes from elsewhere.
   useEffect(() => {
@@ -38,15 +41,15 @@ export default function VersionTree({ className }) {
   }
 
   function handleKeyDown(event) {
-    const index = rows.findIndex((row) => row.version.id === selectedId);
+    const index = navigable.findIndex((row) => row.version.id === selectedId);
     const current = byId.get(selectedId);
     const targets = {
-      ArrowDown: rows[index + 1]?.version.id,
-      ArrowUp: rows[index - 1]?.version.id,
-      Home: rows[0]?.version.id,
-      End: rows.at(-1)?.version.id,
+      ArrowDown: navigable[index + 1]?.version.id,
+      ArrowUp: navigable[index - 1]?.version.id,
+      Home: navigable[0]?.version.id,
+      End: navigable.at(-1)?.version.id,
       ArrowLeft: current?.parentId,
-      ArrowRight: children.get(selectedId)?.[0]?.id,
+      ArrowRight: children.get(selectedId)?.find((child) => !child.pending)?.id,
     };
     if (event.key in targets) {
       event.preventDefault();
@@ -60,7 +63,7 @@ export default function VersionTree({ className }) {
         <h2 id="versions-heading" className="text-sm font-semibold">
           Versions
         </h2>
-        <span className="text-[11px] text-muted">{rows.length} total</span>
+        <span className="text-[11px] text-muted">{navigable.length} total</span>
       </div>
 
       <ul
@@ -76,7 +79,12 @@ export default function VersionTree({ className }) {
           const hasChildren = children.has(version.id);
           const hero = version.outputs[version.heroIndex] ?? version.outputs[0];
           const { icon: OpIcon, label: opLabel } = OPERATIONS[version.operation];
-          const summary = describeChange(version, parent);
+          const isFailed = version.pending === "failed";
+          const summary = version.pending
+            ? isFailed
+              ? "Failed — retry from the composer"
+              : `${opLabel} of ${parent.id} in progress…`
+            : describeChange(version, parent);
 
           return (
             <li
@@ -88,12 +96,19 @@ export default function VersionTree({ className }) {
               role="treeitem"
               aria-level={depth + 1}
               aria-selected={isSelected}
-              aria-label={`${version.id}, ${opLabel}${version.starred ? ", starred" : ""}: ${summary}`}
+              aria-disabled={version.pending ? true : undefined}
+              aria-label={
+                version.pending
+                  ? `New version: ${summary}`
+                  : `${version.id}, ${opLabel}${version.starred ? ", starred" : ""}: ${summary}`
+              }
               tabIndex={isSelected ? 0 : -1}
-              onClick={() => move(version.id)}
+              onClick={version.pending ? undefined : () => move(version.id)}
               className={cn(
-                "group relative flex h-14 cursor-pointer items-center rounded-2xl pr-2 transition-colors duration-150",
-                isSelected ? "bg-surface shadow-soft" : "hover:bg-surface/60",
+                "group relative flex h-14 items-center rounded-2xl pr-2 duration-200",
+                "transition-[background-color,box-shadow,opacity,translate] starting:-translate-x-1 starting:opacity-0",
+                version.pending ? "cursor-default" : "cursor-pointer",
+                isSelected ? "bg-surface shadow-soft" : !version.pending && "hover:bg-surface/60",
               )}
               style={{ paddingLeft: COLUMN_X + depth * INDENT - THUMB / 2 }}
             >
@@ -142,18 +157,28 @@ export default function VersionTree({ className }) {
                 )}
                 style={{ width: THUMB, height: THUMB }}
               >
-                <Image src={hero.src} alt="" fill sizes="36px" quality={60} className="object-cover" />
+                {version.pending ? (
+                  isFailed ? (
+                    <AlertTriangle className="absolute inset-0 m-auto size-4 text-danger" aria-hidden="true" />
+                  ) : (
+                    <Skeleton className="size-full rounded-lg" />
+                  )
+                ) : (
+                  <Image src={hero.src} alt="" fill sizes="36px" quality={60} className="object-cover" />
+                )}
               </span>
 
               <span className="ml-2.5 flex min-w-0 flex-1 flex-col">
                 <span className="flex items-center gap-1.5 text-xs font-semibold">
-                  {version.id}
+                  {version.pending ? (isFailed ? "Not created" : "New version") : version.id}
                   <OpIcon className="size-3 text-muted" aria-hidden="true" />
                   {version.starred && (
                     <Star className="size-3 fill-accent text-accent" aria-hidden="true" />
                   )}
                 </span>
-                <span className="truncate text-[11px] text-muted">{summary}</span>
+                <span className={cn("truncate text-[11px]", isFailed ? "text-danger" : "text-muted")}>
+                  {summary}
+                </span>
               </span>
             </li>
           );

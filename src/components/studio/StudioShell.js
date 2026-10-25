@@ -1,6 +1,7 @@
 "use client";
 
 import { CloudOff, RotateCw } from "lucide-react";
+import BranchComposer from "@/components/studio/BranchComposer";
 import StudioTopBar from "@/components/studio/StudioTopBar";
 import { useStudio } from "@/components/studio/StudioProvider";
 import VersionInspector from "@/components/studio/VersionInspector";
@@ -49,7 +50,10 @@ export default function StudioShell() {
           className="grid min-h-0 flex-1 grid-rows-[minmax(0,1fr)] lg:grid-cols-[280px_minmax(0,1fr)_320px]"
         >
           <VersionTree className="border-r border-border bg-surface-muted/60 max-lg:hidden" />
-          <VersionStage />
+          <VersionStage>
+            {/* Keyed by version: the draft restarts from the new parent. */}
+            <BranchComposer key={selected.id} parent={selected} />
+          </VersionStage>
           <VersionInspector className="border-l border-border bg-surface-muted/60 max-lg:hidden" />
         </main>
       )}
