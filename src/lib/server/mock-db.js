@@ -45,7 +45,8 @@ function unsplashUrl(photoId, { width, height }) {
   return `https://images.unsplash.com/photo-${photoId}?${params}`;
 }
 
-function toOutput(generation, media, index) {
+/** Shapes one media item as an output of `generation` (an image or video). */
+export function toOutput(generation, media, index) {
   const id = `${generation.id}-${index + 1}`;
 
   if (generation.type === "video") {
@@ -79,15 +80,22 @@ function hydrate(record) {
   return { ...generation, status: "completed", outputs };
 }
 
+export function getMedia(id) {
+  return mediaById.get(id);
+}
+
 const generations = seedGenerations.map(hydrate);
 let nextId = generations.length + 1;
 
 /**
  * Pick the media whose tags best match the prompt, so "a cat on a sofa"
  * returns cats. Ties are shuffled so repeated prompts feel fresh.
+ * `exclude` skips media ids (e.g. a parent version's results).
  */
-function pickMedia(type, prompt, count) {
-  const pool = type === "video" ? videos : images;
+export function pickMedia(type, prompt, count, { exclude = [] } = {}) {
+  const pool = (type === "video" ? videos : images).filter(
+    (media) => !exclude.includes(media.id),
+  );
   const words = new Set(prompt.toLowerCase().match(/[a-z0-9]+/g) ?? []);
 
   return pool

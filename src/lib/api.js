@@ -59,3 +59,26 @@ export async function fetchHistory({ signal } = {}) {
   const { items } = await request("/api/history", { signal });
   return items;
 }
+
+export async function fetchStudioProject({ signal } = {}) {
+  const { project } = await request("/api/studio", { signal });
+  return project;
+}
+
+/** Branches a new version from `parentId` via "vary" | "refine" | "remix". */
+export async function createStudioVersion(input, { signal } = {}) {
+  const { version } = await request("/api/studio/versions", {
+    method: "POST",
+    body: JSON.stringify(input),
+    signal,
+  });
+  return version;
+}
+
+export async function updateStudioVersion(id, changes) {
+  const { version } = await request(`/api/studio/versions/${encodeURIComponent(id)}`, {
+    method: "PATCH",
+    body: JSON.stringify(changes),
+  });
+  return version;
+}
