@@ -4,6 +4,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
 import { RotateCw } from "lucide-react";
 import GenerationGroup from "@/components/feed/GenerationGroup";
+import PendingGeneration from "@/components/feed/PendingGeneration";
 import { FeedEmpty, FeedError, FeedSkeleton } from "@/components/feed/FeedStates";
 import { useWorkspace } from "@/components/workspace/WorkspaceProvider";
 import Button from "@/components/ui/Button";
@@ -15,7 +16,19 @@ const Lightbox = dynamic(() => import("@/components/feed/Lightbox"), { ssr: fals
 const PREFETCH_MARGIN = "800px";
 
 export default function GenerationFeed() {
-  const { feed, feedType, highlightedId, retryFeed, loadMore } = useWorkspace();
+  const {
+    feed,
+    feedType,
+    highlightedId,
+    retryFeed,
+    loadMore,
+    jobs,
+    cancelJob,
+    retryJob,
+    dismissJob,
+    reuseGeneration,
+    announcement,
+  } = useWorkspace();
   const { status, items, nextCursor, error, isLoadingMore, loadMoreError } = feed;
   const [viewer, setViewer] = useState(null);
   const sentinelRef = useRef(null);
@@ -36,10 +49,25 @@ export default function GenerationFeed() {
     return () => observer.disconnect();
   }, [canAutoLoad, loadMore, items.length]);
 
+  // Bring a just-started generation into view (no-op if already visible).
+  const newestJobId = jobs[0]?.id;
+  useEffect(() => {
+    if (!newestJobId) return;
+    document
+      .getElementById(newestJobId)
+      ?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+  }, [newestJobId]);
+
   // Stable so memoised rows don't re-render when the viewer opens.
   const openViewer = useCallback(
     (generation, index) => setViewer({ generation, index }),
     [],
+  );
+
+  const liveRegion = (
+    <p className="sr-only" role="status">
+      {announcement}
+    </p>
   );
 
   if (status === "loading") {
@@ -55,13 +83,28 @@ export default function GenerationFeed() {
     return <FeedError message={error} onRetry={retryFeed} />;
   }
 
-  if (items.length === 0) {
-    return <FeedEmpty feedType={feedType} />;
+  if (items.length === 0 && jobs.length === 0) {
+    return (
+      <>
+        {liveRegion}
+        <FeedEmpty feedType={feedType} />
+      </>
+    );
   }
 
   return (
     <>
+      {liveRegion}
       <div className="space-y-6" aria-busy={isLoadingMore}>
+        {jobs.map((job) => (
+          <PendingGeneration
+            key={job.id}
+            job={job}
+            onCancel={cancelJob}
+            onRetry={retryJob}
+            onDismiss={dismissJob}
+          />
+        ))}
         {items.map((generation, index) => (
           <GenerationGroup
             key={generation.id}
@@ -69,6 +112,7 @@ export default function GenerationFeed() {
             highlighted={generation.id === highlightedId}
             eager={index === 0}
             onOpen={openViewer}
+            onReuse={reuseGeneration}
           />
         ))}
       </div>

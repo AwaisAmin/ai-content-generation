@@ -1,8 +1,9 @@
 "use client";
 
 import { useId, useState } from "react";
-import { Image as ImageIcon, Video } from "lucide-react";
+import { Image as ImageIcon, RotateCcw, Video } from "lucide-react";
 import CopyButton from "@/components/feed/CopyButton";
+import IconButton from "@/components/ui/IconButton";
 import { MODELS, STYLES } from "@/config/generation";
 import { cn } from "@/lib/cn";
 import { formatRelativeTime } from "@/lib/format";
@@ -11,7 +12,7 @@ import { formatRelativeTime } from "@/lib/format";
 const CLAMP_THRESHOLD = 220;
 
 /** The prompt and settings a generation was created with. */
-export default function PromptCard({ generation, headingId }) {
+export default function PromptCard({ generation, headingId, onReuse }) {
   const [expanded, setExpanded] = useState(false);
   const textId = useId();
   const { type, prompt, model, aspectRatio, style, createdAt } = generation;
@@ -64,7 +65,15 @@ export default function PromptCard({ generation, headingId }) {
       </div>
 
       <div className="mt-auto flex items-center justify-between gap-2">
-        <CopyButton text={prompt} />
+        <div className="flex gap-0.5">
+          <CopyButton text={prompt} />
+          <IconButton
+            icon={RotateCcw}
+            label="Reuse prompt and settings"
+            size="sm"
+            onClick={() => onReuse(generation)}
+          />
+        </div>
         <span className="rounded-full bg-surface px-3 py-1 text-[11px] font-medium shadow-soft">
           {modelLabel}
         </span>

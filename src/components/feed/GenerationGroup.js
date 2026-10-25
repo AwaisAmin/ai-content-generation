@@ -10,7 +10,7 @@ import { cn } from "@/lib/cn";
  * row so every generation keeps the same rhythm; videos get two wider
  * columns. Memoised so paging in more rows doesn't re-render existing ones.
  */
-function GenerationGroup({ generation, highlighted, eager, onOpen }) {
+function GenerationGroup({ generation, highlighted, eager, onOpen, onReuse }) {
   const headingId = `generation-${generation.id}-heading`;
   const isVideo = generation.type === "video";
 
@@ -23,7 +23,7 @@ function GenerationGroup({ generation, highlighted, eager, onOpen }) {
         highlighted && "animate-highlight",
       )}
     >
-      <PromptCard generation={generation} headingId={headingId} />
+      <PromptCard generation={generation} headingId={headingId} onReuse={onReuse} />
 
       <div
         className={cn(

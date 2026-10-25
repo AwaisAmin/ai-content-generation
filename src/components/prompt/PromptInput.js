@@ -3,7 +3,7 @@
 import { useId } from "react";
 import { Sparkles } from "lucide-react";
 import Button from "@/components/ui/Button";
-import { PROMPT_MAX_LENGTH } from "@/config/generation";
+import { MAX_CONCURRENT_GENERATIONS, PROMPT_MAX_LENGTH } from "@/config/generation";
 import { useIsMac } from "@/hooks/useIsMac";
 import { cn } from "@/lib/cn";
 
@@ -19,12 +19,14 @@ export default function PromptInput({
   onChange,
   placeholder,
   error,
-  isGenerating,
+  runningCount = 0,
+  canGenerate = true,
 }) {
   const id = useId();
   const errorId = `${id}-error`;
   const isMac = useIsMac();
   const showCounter = value.length >= COUNTER_THRESHOLD;
+  const limitMessage = `${MAX_CONCURRENT_GENERATIONS} generations are running — Generate unlocks when one finishes.`;
 
   function handleKeyDown(event) {
     if (event.key === "Enter" && (event.metaKey || event.ctrlKey)) {
@@ -66,6 +68,11 @@ export default function PromptInput({
               <span className={cn(value.length >= PROMPT_MAX_LENGTH && "text-danger")}>
                 {value.length} / {PROMPT_MAX_LENGTH}
               </span>
+            ) : runningCount > 0 ? (
+              <span className="inline-flex items-center gap-1.5 text-accent">
+                <span className="size-1.5 animate-pulse rounded-full bg-accent" aria-hidden="true" />
+                {runningCount} generating…
+              </span>
             ) : (
               <kbd className="hidden font-sans md:inline">
                 {isMac ? "⌘" : "Ctrl"} + Enter
@@ -76,10 +83,11 @@ export default function PromptInput({
           <Button
             type="submit"
             icon={Sparkles}
-            loading={isGenerating}
+            loading={!canGenerate}
+            title={canGenerate ? undefined : limitMessage}
             className="pointer-events-auto [&>svg]:transition-transform [&>svg]:duration-500 [&>svg]:ease-spring hover:[&>svg]:scale-110 hover:[&>svg]:rotate-[20deg]"
           >
-            {isGenerating ? "Generating" : "Generate"}
+            {canGenerate ? "Generate" : "Busy"}
           </Button>
         </div>
       </div>

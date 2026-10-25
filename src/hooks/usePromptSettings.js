@@ -14,14 +14,20 @@ function reducer(settings, action) {
   }
 }
 
+function init(initial) {
+  const merged = { ...DEFAULT_SETTINGS, ...initial };
+  return adaptSettingsToType(merged, merged.type);
+}
+
 /**
  * Local form state for the prompt panel. Kept out of the workspace context
  * on purpose: typing a prompt shouldn't re-render the feed.
+ *
+ * @param initial  Partial settings to start from (e.g. `{ type: "video" }`
+ *                 or a reused generation's settings).
  */
-export function usePromptSettings(initialType = DEFAULT_SETTINGS.type) {
-  const [settings, dispatch] = useReducer(reducer, initialType, (type) =>
-    adaptSettingsToType(DEFAULT_SETTINGS, type),
-  );
+export function usePromptSettings(initial) {
+  const [settings, dispatch] = useReducer(reducer, initial, init);
 
   const update = useCallback(
     (field, value) => dispatch({ type: "update", field, value }),

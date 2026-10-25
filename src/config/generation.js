@@ -54,6 +54,12 @@ export const SEED_MAX = 2 ** 32 - 1;
 
 export const PROMPT_MAX_LENGTH = 1500;
 
+/** Typical time to first result, used to pace the progress bar. */
+export const ESTIMATED_DURATION_MS = { image: 2300, video: 3750 };
+
+/** How many generations can run at once before Generate waits. */
+export const MAX_CONCURRENT_GENERATIONS = 3;
+
 export const DEFAULT_SETTINGS = {
   type: "image",
   prompt: "",
