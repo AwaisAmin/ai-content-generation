@@ -26,6 +26,8 @@ const initialState = {
   project: null,
   error: null,
   selectedId: null,
+  // Version shown as "B" in compare mode (A is always the selection).
+  compareId: null,
   // Branches in flight / failed: { id, input, status, error, startedAt }
   jobs: [],
   announcement: "",
@@ -45,7 +47,15 @@ function reducer(state, action) {
     case "failed":
       return { ...state, status: "error", error: action.error };
     case "select":
-      return { ...state, selectedId: action.id };
+      return {
+        ...state,
+        selectedId: action.id,
+        // Selecting the current B swaps the pair instead of comparing a
+        // version with itself.
+        compareId: action.id === state.compareId ? state.selectedId : state.compareId,
+      };
+    case "compare":
+      return { ...state, compareId: action.id === state.selectedId ? null : action.id };
     case "patched":
       return {
         ...state,
@@ -180,6 +190,8 @@ export function StudioProvider({ children }) {
   );
 
   const select = useCallback((id) => dispatch({ type: "select", id }), []);
+  /** Shows `id` as B next to the selection; `null` leaves compare mode. */
+  const compare = useCallback((id) => dispatch({ type: "compare", id }), []);
 
   // Mirror the selection in the URL hash (shareable deep link, no history
   // entries) — including when a finished branch is selected automatically.
@@ -210,8 +222,10 @@ export function StudioProvider({ children }) {
       ...state,
       tree,
       selected: tree?.byId.get(state.selectedId) ?? null,
+      compared: tree?.byId.get(state.compareId) ?? null,
       retry,
       select,
+      compare,
       patchVersion,
       runningCount,
       canBranch,
@@ -220,7 +234,20 @@ export function StudioProvider({ children }) {
       dismissJob,
       retryJob,
     }),
-    [state, tree, retry, select, patchVersion, runningCount, canBranch, branch, cancelJob, dismissJob, retryJob],
+    [
+      state,
+      tree,
+      retry,
+      select,
+      compare,
+      patchVersion,
+      runningCount,
+      canBranch,
+      branch,
+      cancelJob,
+      dismissJob,
+      retryJob,
+    ],
   );
 
   return <StudioContext value={value}>{children}</StudioContext>;

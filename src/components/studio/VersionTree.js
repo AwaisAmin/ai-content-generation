@@ -22,7 +22,7 @@ const ROW_MID = 28;
  * follows focus; ↑/↓ move, ← goes to the parent, → to the first child.
  */
 export default function VersionTree({ className }) {
-  const { tree, selectedId, select } = useStudio();
+  const { tree, selectedId, compareId, select, compare } = useStudio();
   const itemRefs = useRef(new Map());
   const listRef = useRef(null);
   const { rows, byId, children } = tree;
@@ -65,6 +65,7 @@ export default function VersionTree({ className }) {
         </h2>
         <span className="text-[11px] text-muted">{navigable.length} total</span>
       </div>
+      <p className="px-4 pb-2 text-[10.5px] text-muted">⇧-click a version to compare it.</p>
 
       <ul
         ref={listRef}
@@ -103,7 +104,11 @@ export default function VersionTree({ className }) {
                   : `${version.id}, ${opLabel}${version.starred ? ", starred" : ""}: ${summary}`
               }
               tabIndex={isSelected ? 0 : -1}
-              onClick={version.pending ? undefined : () => move(version.id)}
+              onClick={
+                version.pending
+                  ? undefined
+                  : (event) => (event.shiftKey ? compare(version.id) : move(version.id))
+              }
               className={cn(
                 "group relative flex h-14 items-center rounded-2xl pr-2 duration-200",
                 "transition-[background-color,box-shadow,opacity,translate] starting:-translate-x-1 starting:opacity-0",
@@ -174,6 +179,11 @@ export default function VersionTree({ className }) {
                   <OpIcon className="size-3 text-muted" aria-hidden="true" />
                   {version.starred && (
                     <Star className="size-3 fill-accent text-accent" aria-hidden="true" />
+                  )}
+                  {version.id === compareId && (
+                    <span className="rounded-full bg-accent px-1.5 text-[10px] leading-4 font-semibold text-accent-foreground">
+                      B
+                    </span>
                   )}
                 </span>
                 <span className={cn("truncate text-[11px]", isFailed ? "text-danger" : "text-muted")}>
