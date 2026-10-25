@@ -1,0 +1,19 @@
+@import "tailwindcss";
+
+/* Design tokens are fleshed out in the next step; this is the base layer. */
+:root {
+  --background: #fbf7f5;
+  --foreground: #2b2523;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-sans: var(--font-poppins), ui-sans-serif, system-ui, sans-serif;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
