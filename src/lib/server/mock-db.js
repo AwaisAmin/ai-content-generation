@@ -4,13 +4,13 @@ import images from "@/data/images.json";
 import videos from "@/data/videos.json";
 import seedGenerations from "@/data/seed-generations.json";
 import {
-  ASPECT_RATIOS,
   MEDIA_TYPES,
   MODELS,
   OUTPUT_COUNTS,
   PROMPT_MAX_LENGTH,
   STYLES,
   getAspectRatio,
+  getAspectRatios,
 } from "@/config/generation";
 
 /*
@@ -134,8 +134,7 @@ export function createGeneration({ type, prompt, model, aspectRatio, count, styl
     type,
     prompt,
     model,
-    // Video clips come back in their native framing.
-    aspectRatio: type === "video" ? "16:9" : aspectRatio,
+    aspectRatio,
     style,
     createdAt: new Date().toISOString(),
     mediaIds: pickMedia(type, prompt, count),
@@ -172,9 +171,9 @@ export function parseGenerationInput(body) {
     return { error: `Model "${model}" doesn't support ${type} generation.` };
   }
 
-  const aspectRatio = body.aspectRatio ?? "1:1";
-  if (!ASPECT_RATIOS.some((ratio) => ratio.value === aspectRatio)) {
-    return { error: `Unsupported aspect ratio "${aspectRatio}".` };
+  const aspectRatio = body.aspectRatio ?? getAspectRatios(type)[0].value;
+  if (!getAspectRatios(type).some((ratio) => ratio.value === aspectRatio)) {
+    return { error: `Aspect ratio "${aspectRatio}" isn't available for ${type}s.` };
   }
 
   const count = Number(body.count ?? OUTPUT_COUNTS[type].at(-1));

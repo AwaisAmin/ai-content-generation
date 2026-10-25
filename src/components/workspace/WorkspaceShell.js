@@ -1,13 +1,14 @@
 import HistoryStrip from "@/components/history/HistoryStrip";
+import PromptPanel from "@/components/prompt/PromptPanel";
 import { WorkspaceProvider } from "@/components/workspace/WorkspaceProvider";
 import Skeleton from "@/components/ui/Skeleton";
 
 /**
  * Workspace layout: history strip on top, prompt panel on the left and the
- * results feed on the right. The prompt panel and feed placeholders are
- * replaced in the following steps.
+ * results feed on the right. The feed placeholder is replaced in the next
+ * step.
  */
-export default function WorkspaceShell({ title }) {
+export default function WorkspaceShell({ title, defaultType = "image" }) {
   return (
     <WorkspaceProvider>
       <div className="mx-auto flex w-full max-w-[1680px] flex-1 flex-col gap-4 px-4 pb-6 md:px-8">
@@ -19,8 +20,10 @@ export default function WorkspaceShell({ title }) {
         </div>
 
         <div className="grid flex-1 gap-6 md:grid-cols-[280px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)]">
-          <aside aria-label="Create">
-            <Skeleton className="h-[460px] rounded-panel" />
+          {/* Sticks below header (5rem) + history strip (92px) + gap; scrolls
+              internally if Advance and Styles are both expanded. */}
+          <aside className="scrollbar-thin md:sticky md:top-[calc(5rem+92px+1rem)] md:max-h-[calc(100dvh-5rem-92px-2rem)] md:self-start md:overflow-y-auto">
+            <PromptPanel defaultType={defaultType} />
           </aside>
 
           <section aria-label="Generations" className="space-y-6">
