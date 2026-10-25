@@ -39,10 +39,12 @@ export default function Drawer({ open, onClose, side = "left", title, children }
     >
       {open && (
         <div className="flex h-full max-h-[inherit] flex-col">
-          <header className="flex shrink-0 items-center justify-between border-b border-border px-4 py-2.5">
+          {/* A <div>, not <header>: inside a dialog a header would become a
+              second page-level "banner" landmark. */}
+          <div className="flex shrink-0 items-center justify-between border-b border-border px-4 py-2.5">
             <h2 className="text-sm font-semibold">{title}</h2>
             <IconButton icon={X} label="Close" size="sm" onClick={() => ref.current.close()} />
-          </header>
+          </div>
           <div className="flex min-h-0 flex-1 flex-col overflow-y-auto">{children}</div>
         </div>
       )}

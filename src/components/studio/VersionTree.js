@@ -102,11 +102,6 @@ export default function VersionTree({ className, onPick, hideHeading = false }) 
               aria-level={depth + 1}
               aria-selected={isSelected}
               aria-disabled={version.pending ? true : undefined}
-              aria-label={
-                version.pending
-                  ? `New version: ${summary}`
-                  : `${version.id}, ${opLabel}${version.starred ? ", starred" : ""}: ${summary}`
-              }
               tabIndex={isSelected ? 0 : -1}
               onClick={
                 version.pending
@@ -184,15 +179,22 @@ export default function VersionTree({ className, onPick, hideHeading = false }) 
               <span className="ml-2.5 flex min-w-0 flex-1 flex-col">
                 <span className="flex items-center gap-1.5 text-xs font-semibold">
                   {version.pending ? (isFailed ? "Not created" : "New version") : version.id}
+                  {/* The accessible name comes from this content (no aria-label),
+                      so icons carry sr-only text and visible text stays in it. */}
                   <OpIcon className="size-3 text-muted" aria-hidden="true" />
+                  <span className="sr-only">, {opLabel}</span>
                   {version.starred && (
-                    <Star className="size-3 fill-accent text-accent" aria-hidden="true" />
+                    <>
+                      <Star className="size-3 fill-accent text-accent" aria-hidden="true" />
+                      <span className="sr-only">, selected</span>
+                    </>
                   )}
                   {version.id === compareId && (
                     <span className="rounded-full bg-accent px-1.5 text-[10px] leading-4 font-semibold text-accent-foreground">
-                      B
+                      B<span className="sr-only"> (comparing)</span>
                     </span>
                   )}
+                  <span className="sr-only">{": "}</span>
                 </span>
                 <span className={cn("truncate text-[11px]", isFailed ? "text-danger" : "text-muted")}>
                   {summary}

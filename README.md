@@ -7,9 +7,36 @@ A responsive, production-quality image & video generation workspace for
 
 ![Fomi workspace](./docs/screenshot.jpg)
 
+The repo contains both parts of the assessment:
+
+- **Part A — Workspace** (`/`): the mockup implemented as a production-quality,
+  responsive generation workspace.
+- **Part B — Studio** (`/studio`): my redesign of the Image Generation
+  workspace. It treats iteration as a version tree you branch, diff and
+  compare. See the [Product Thinking document](./docs/product-thinking.md).
+
 ---
 
-## Highlights
+## Part B — Fomi Studio
+
+**Generation as version control.** Every result is a version with a parent,
+the operation that made it and a visible diff.
+
+![Fomi Studio](./docs/studio.jpg)
+
+- **Version tree:** a git-graph-style lineage with thumbnails, one-line
+  change summaries, selects (★) and notes.
+- **Branch with intent:** **Vary** (new seed), **Refine** (edit words, same
+  seed) or **Remix** (new style, model or ratio), with a **live prompt diff**
+  before you generate.
+- **Compare:** side by side or with a reveal slider, plus the exact prompt
+  and settings differences.
+- **Keyboard-first:** `J`/`K` to move, `V`/`R`/`X` to branch, `C` to
+  compare, `S` to select, `?` for help. Tablet and mobile use drawers.
+
+---
+
+## Part A highlights
 
 - **Generate end-to-end** against a mocked API: pending placeholders shaped
   like the final result, a paced progress bar, cancel, retry and dismiss.
@@ -55,6 +82,16 @@ Open [http://localhost:3000](http://localhost:3000).
 
 ### Try it
 
+**Studio** (`/studio`):
+
+- Pick **v4**, press **R**, add a few words and watch the live diff, then
+  **Ctrl/⌘ + Enter**. The new version keeps v4's seed.
+- Press **C** to compare with the parent, switch to **Slider** and drag (or
+  use the arrow keys).
+- **Shift-click** any version in the tree to compare against it.
+
+**Workspace** (`/`):
+
 - Type a prompt and press **Generate** (or **Ctrl/⌘ + Enter**).
 - Include **`#error`** in a prompt to see the failure and retry flow.
 - Press Generate three times quickly to hit the concurrency limit.
@@ -68,13 +105,15 @@ Open [http://localhost:3000](http://localhost:3000).
 src/
   app/
     (workspace)/        Routes sharing the header + tools nav
-      page.js           Home — all generations
+      page.js           Home — all generations (Part A)
       image/, video/    Same workspace, feed filtered by type
       edit/, assets/…   "Coming soon" tools
       error.js          Error boundary for the workspace
+    (studio)/studio/    Part B — the branching Studio
     api/
       generations/      GET (paginated feed) · POST (create)
       history/          GET (recent generations)
+      studio/           GET project · POST /versions · PATCH /versions/:id
     layout.js           Fonts, theme script, metadata
     not-found.js        Branded 404
     globals.css         Design tokens, themes, base styles
@@ -85,10 +124,13 @@ src/
     history/            History strip
     prompt/             Composer: form, mobile bar/sheet, options, styles
     feed/               Feed rows, tiles, pending state, lightbox
+    studio/             Version tree, stage, composer, compare, inspector
   config/               Generation options shared by UI and API
   data/                 Mock JSON (media library + seed generations)
   hooks/                Reusable hooks (media query, focus trap, scroll…)
-  lib/                  API client, formatting, motion; server-only mock store
+  lib/                  API client, prompt diff, version tree, formatting;
+                        server-only mock stores
+docs/                   Product Thinking document, screenshot
 ```
 
 ## Architecture & key decisions
@@ -118,6 +160,12 @@ API validates against it, so they can't drift apart.
 **API client boundary.** Components never call `fetch` directly; everything
 goes through `src/lib/api.js`, so swapping in the real backend is one file.
 
+**Prompt diff.** `src/lib/diff.js` runs a word-level LCS and merges changes
+separated only by whitespace into phrases ("soft window" → "golden hour").
+Joining the unchanged and added parts always reproduces the new prompt
+exactly. The Studio uses it in the tree, the inspector, the live composer and
+compare.
+
 **Native platform first.** `<dialog>` for the lightbox (focus trap, Escape,
 inert page), native radio inputs for the style picker, `@starting-style` for
 enter animations and CSS-only height animation for accordions.
@@ -135,7 +183,8 @@ enter animations and CSS-only height animation for accordions.
 - `prefers-reduced-motion` disables CSS animation and JS-driven smooth
   scrolling and video previews.
 - Audited with axe-core: no violations on the workspace (light and dark),
-  open menus and accordions, the lightbox, `/video` and the 404 page.
+  open menus and accordions, the lightbox, `/video`, the 404 page, and the
+  Studio (tree, compare, slider, shortcuts dialog, light and dark).
 
 ## Performance
 
@@ -157,6 +206,9 @@ latency so loading states behave like real inference.
 | `GET`  | `/api/generations` | Paginated feed. Query: `type` (`image` \| `video`), `cursor`, `limit`       |
 | `POST` | `/api/generations` | Create a generation. Body: `type, prompt, model, aspectRatio, count, style` |
 | `GET`  | `/api/history`     | Recent generations, one cover thumbnail each                                |
+| `GET`  | `/api/studio`      | The Studio project with its full version tree                               |
+| `POST` | `/api/studio/versions` | Branch a version. Body: `parentId, operation, prompt, model, aspectRatio, style, count` |
+| `PATCH`| `/api/studio/versions/:id` | Update `starred`, `heroIndex` or `note`                             |
 
 Errors share one shape: `{ "error": { "code", "message" } }`. Results are
 picked by matching prompt keywords to media tags, so _"a cat by the window"_
@@ -172,6 +224,9 @@ returns cats.
 - Advanced settings (negative prompt, guidance, seed) are collected and sent
   but ignored by the mock API.
 - Edit, Assets, Gallery and Support are placeholder pages.
+- The Studio has a single seeded project. Branches are mocked: images are
+  picked from the library by prompt keywords, and Refine's kept seed is
+  recorded but can't truly constrain a mock.
 - Some sample videos are hosted without CORS headers, so "Download" opens
   them in a new tab instead of saving directly.
 
