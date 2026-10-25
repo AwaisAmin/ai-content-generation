@@ -19,7 +19,7 @@ export default function HistoryThumbnail({ item }) {
         href={`#generation-${item.id}`}
         aria-label={label}
         title={label}
-        className="group/thumb relative block size-16 overflow-hidden rounded-xl bg-surface-sunken transition-[translate,box-shadow] duration-300 ease-(--ease-spring) hover:-translate-y-0.5 hover:shadow-lifted md:size-[68px]"
+        className="group/thumb relative block size-16 overflow-hidden rounded-xl bg-surface-sunken transition-[translate,box-shadow] duration-300 ease-spring hover:-translate-y-0.5 hover:shadow-lifted md:size-[68px]"
       >
         {isVideo ? (
           <video
@@ -29,7 +29,7 @@ export default function HistoryThumbnail({ item }) {
             preload="metadata"
             tabIndex={-1}
             aria-hidden="true"
-            className="size-full object-cover transition-transform duration-500 ease-(--ease-out-soft) group-hover/thumb:scale-110"
+            className="size-full object-cover transition-transform duration-500 ease-out-soft group-hover/thumb:scale-110"
           />
         ) : (
           <FadeInImage

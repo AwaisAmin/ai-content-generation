@@ -19,7 +19,7 @@ const SIZES = {
 export function buttonClasses({ variant = "primary", size = "md", className } = {}) {
   return cn(
     "inline-flex shrink-0 select-none items-center justify-center rounded-full font-medium whitespace-nowrap",
-    "transition-[background-color,box-shadow,border-color,transform,opacity] duration-200 ease-(--ease-out-soft)",
+    "transition-[background-color,box-shadow,border-color,scale,opacity] duration-200 ease-out-soft",
     "active:scale-[0.97] disabled:pointer-events-none disabled:opacity-55",
     VARIANTS[variant],
     SIZES[size],

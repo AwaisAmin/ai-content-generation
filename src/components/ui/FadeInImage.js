@@ -20,7 +20,7 @@ export default function FadeInImage({ className, onLoad, ...props }) {
         onLoad?.(event);
       }}
       className={cn(
-        "transition-[opacity,scale] duration-500 ease-(--ease-out-soft)",
+        "transition-[opacity,scale] duration-500 ease-out-soft",
         loaded ? "scale-100 opacity-100" : "scale-[1.02] opacity-0",
         className,
       )}

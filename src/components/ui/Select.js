@@ -15,11 +15,13 @@ import { cn } from "@/lib/cn";
 export default function Select({
   label,
   prefix,
+  prefixClassName,
   options,
   value,
   onChange,
   placement = "bottom",
   align = "start",
+  disabled = false,
   className,
 }) {
   const [open, setOpen] = useState(false);
@@ -113,17 +115,22 @@ export default function Select({
         aria-expanded={open}
         aria-controls={listboxId}
         aria-activedescendant={open ? `${id}-option-${activeIndex}` : undefined}
+        disabled={disabled}
         onClick={() => (open ? setOpen(false) : openList())}
         onKeyDown={handleKeyDown}
         className={cn(
-          "inline-flex h-8 w-full items-center justify-between gap-1.5 rounded-full border border-border bg-surface px-3 text-xs whitespace-nowrap",
+          "inline-flex h-8 w-full items-center justify-between gap-1 rounded-full border border-border bg-surface px-2.5 text-xs whitespace-nowrap disabled:opacity-60",
           "transition-[border-color,box-shadow] duration-200 hover:border-subtle",
           open && "border-subtle shadow-soft",
         )}
       >
         <span className="truncate">
-          {prefix && <span className="text-muted">{prefix} </span>}
-          <span className="font-semibold">{selected?.label ?? "Select"}</span>
+          {prefix && (
+            <span className={cn("mr-1 text-muted", prefixClassName)}>{prefix}</span>
+          )}
+          <span className="font-semibold">
+            {selected?.triggerLabel ?? selected?.label ?? "Select"}
+          </span>
         </span>
         <ChevronDown
           aria-hidden="true"
@@ -140,15 +147,18 @@ export default function Select({
         aria-label={label}
         tabIndex={-1}
         className={cn(
-          "absolute z-50 max-h-64 min-w-full overflow-y-auto rounded-2xl border border-border bg-surface p-1 shadow-lifted scrollbar-thin",
-          "transition-[opacity,transform,visibility] duration-200 ease-(--ease-out-soft)",
+          "absolute z-50 max-h-64 w-max min-w-full overflow-y-auto rounded-2xl border border-border bg-surface p-1 shadow-lifted scrollbar-thin",
+          // display:none when closed so the hidden list never adds scroll
+          // overflow to its container; @starting-style + allow-discrete keep
+          // both the open and close animations.
+          "transition-[opacity,scale,display] transition-discrete duration-200 ease-out-soft",
           placement === "bottom"
             ? "top-full mt-2 origin-top"
             : "bottom-full mb-2 origin-bottom",
           align === "start" ? "left-0" : "right-0",
           open
-            ? "visible scale-100 opacity-100"
-            : "invisible scale-95 opacity-0",
+            ? "block scale-100 opacity-100 starting:scale-95 starting:opacity-0"
+            : "hidden scale-95 opacity-0",
         )}
       >
         {options.map((option, index) => {

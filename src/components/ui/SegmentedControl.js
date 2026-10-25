@@ -54,7 +54,7 @@ export default function SegmentedControl({
     >
       <span
         aria-hidden="true"
-        className="absolute inset-y-1 left-1 rounded-full bg-surface-sunken transition-transform duration-300 ease-(--ease-out-soft)"
+        className="absolute inset-y-1 left-1 rounded-full bg-surface-sunken transition-transform duration-300 ease-out-soft"
         style={{
           width: `calc((100% - 0.5rem) / ${options.length})`,
           transform: `translateX(${activeIndex * 100}%)`,

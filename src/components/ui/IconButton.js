@@ -33,7 +33,7 @@ export default function IconButton({
       title={label}
       className={cn(
         "inline-flex shrink-0 items-center justify-center rounded-full",
-        "transition-[background-color,color,transform] duration-200 ease-(--ease-out-soft)",
+        "transition-[background-color,color,scale] duration-200 ease-out-soft",
         "active:scale-90 disabled:pointer-events-none disabled:opacity-50",
         VARIANTS[variant],
         SIZES[size],

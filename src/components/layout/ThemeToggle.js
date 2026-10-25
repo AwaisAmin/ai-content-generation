@@ -43,21 +43,21 @@ export default function ThemeToggle({ className }) {
       title={label}
       className={cn(
         "relative inline-flex size-10 items-center justify-center overflow-hidden rounded-full text-foreground/80",
-        "transition-[background-color,color,transform] duration-200 hover:bg-surface-sunken hover:text-foreground active:scale-90",
+        "transition-[background-color,color,scale] duration-200 hover:bg-surface-sunken hover:text-foreground active:scale-90",
         className,
       )}
     >
       <Sun
         aria-hidden="true"
         className={cn(
-          "absolute size-[18px] transition-[transform,opacity] duration-500 ease-(--ease-spring)",
+          "absolute size-[18px] transition-[rotate,scale,opacity] duration-500 ease-spring",
           isDark ? "rotate-0 opacity-100" : "-rotate-90 scale-50 opacity-0",
         )}
       />
       <Moon
         aria-hidden="true"
         className={cn(
-          "absolute size-[18px] transition-[transform,opacity] duration-500 ease-(--ease-spring)",
+          "absolute size-[18px] transition-[rotate,scale,opacity] duration-500 ease-spring",
           isDark ? "rotate-90 scale-50 opacity-0" : "rotate-0 opacity-100",
         )}
       />

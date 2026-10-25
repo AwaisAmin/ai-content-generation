@@ -14,7 +14,7 @@ export default function Logo({ className }) {
       <span aria-hidden="true">F</span>
       <span
         aria-hidden="true"
-        className="ml-0.5 size-1.5 rounded-full bg-accent transition-transform duration-300 ease-(--ease-spring) group-hover:scale-150"
+        className="ml-0.5 size-1.5 rounded-full bg-accent transition-transform duration-300 ease-spring group-hover:scale-150"
       />
     </Link>
   );

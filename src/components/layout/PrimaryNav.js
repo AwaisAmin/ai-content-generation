@@ -29,7 +29,7 @@ export default function PrimaryNav({ variant = "bar", className }) {
         >
           <span
             className={cn(
-              "absolute inset-y-0 left-0 rounded-full bg-accent transition-[transform,opacity] duration-500 ease-(--ease-spring)",
+              "absolute inset-y-0 left-0 rounded-full bg-accent transition-[transform,opacity] duration-500 ease-spring",
               activeIndex === -1 && "opacity-0",
             )}
             style={{
@@ -63,7 +63,7 @@ export default function PrimaryNav({ variant = "bar", className }) {
                   <Icon
                     aria-hidden="true"
                     strokeWidth={isActive ? 2.25 : 1.75}
-                    className="size-5 transition-transform duration-300 ease-(--ease-spring) group-hover:-translate-y-0.5 group-active:scale-90"
+                    className="size-5 transition-transform duration-300 ease-spring group-hover:-translate-y-0.5 group-active:scale-90"
                   />
                   {isDock && label}
                 </Link>
