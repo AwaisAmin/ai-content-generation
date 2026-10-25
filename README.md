@@ -3,7 +3,7 @@
 A responsive, production-quality image & video generation workspace for
 [Fomi](https://fomi.art), built with Next.js from the assessment mockup.
 
-**Live demo:** _add your Vercel URL here_
+**Live demo:** [ai-content-generation-xi.vercel.app](https://ai-content-generation-xi.vercel.app/)
 
 ![Fomi workspace](./docs/screenshot.jpg)
 
