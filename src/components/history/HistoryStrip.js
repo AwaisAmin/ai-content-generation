@@ -20,7 +20,7 @@ function edgeMask(atStart, atEnd) {
 }
 
 export default function HistoryStrip() {
-  const { history, retryHistory } = useWorkspace();
+  const { history, retryHistory, feedType, focusGeneration } = useWorkspace();
   const { status, items, error } = history;
   const { ref, atStart, atEnd, scrollByPage } = useHorizontalScroll(
     `${status}:${items.length}`,
@@ -66,7 +66,12 @@ export default function HistoryStrip() {
           {status === "success" && items.length > 0 && (
             <ul className="flex gap-2.5 py-1 md:gap-3">
               {items.map((item) => (
-                <HistoryThumbnail key={item.id} item={item} />
+                <HistoryThumbnail
+                  key={item.id}
+                  item={item}
+                  href={`${feedType && item.type !== feedType ? "/" : ""}#generation-${item.id}`}
+                  onSelect={() => focusGeneration(item.id, item.type)}
+                />
               ))}
             </ul>
           )}
