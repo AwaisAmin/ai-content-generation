@@ -23,8 +23,18 @@ export const viewport = {
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="en" className={`${poppins.variable} h-full antialiased`}>
-      <body className="min-h-full flex flex-col">{children}</body>
+    // suppressHydrationWarning only skips attribute diffs on these two
+    // elements (not their children): browser extensions such as ColorZilla
+    // inject attributes into <body>, and the theme is set on <html> before
+    // React hydrates.
+    <html
+      lang="en"
+      className={`${poppins.variable} h-full antialiased`}
+      suppressHydrationWarning
+    >
+      <body className="min-h-full flex flex-col" suppressHydrationWarning>
+        {children}
+      </body>
     </html>
   );
 }
