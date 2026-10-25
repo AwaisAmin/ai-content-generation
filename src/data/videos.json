@@ -1,0 +1,42 @@
+[
+  {
+    "id": "vid-01",
+    "src": "https://interactive-examples.mdn.mozilla.net/media/cc0-videos/flower.mp4",
+    "alt": "A pink flower slowly swaying in the breeze",
+    "width": 1280,
+    "height": 720,
+    "duration": 5,
+    "tags": ["flower", "nature", "macro", "pink"],
+    "credit": "MDN Web Docs (CC0)"
+  },
+  {
+    "id": "vid-02",
+    "src": "https://test-videos.co.uk/vids/jellyfish/mp4/h264/360/Jellyfish_360_10s_1MB.mp4",
+    "alt": "Translucent jellyfish drifting through dark water",
+    "width": 640,
+    "height": 360,
+    "duration": 10,
+    "tags": ["ocean", "jellyfish", "underwater", "calm"],
+    "credit": "test-videos.co.uk"
+  },
+  {
+    "id": "vid-03",
+    "src": "https://test-videos.co.uk/vids/sintel/mp4/h264/360/Sintel_360_10s_1MB.mp4",
+    "alt": "Animated fantasy scene from the short film Sintel",
+    "width": 640,
+    "height": 360,
+    "duration": 10,
+    "tags": ["fantasy", "animation", "cinematic", "dragon"],
+    "credit": "Sintel © Blender Foundation (CC BY 3.0)"
+  },
+  {
+    "id": "vid-04",
+    "src": "https://test-videos.co.uk/vids/bigbuckbunny/mp4/h264/360/Big_Buck_Bunny_360_10s_1MB.mp4",
+    "alt": "Animated rabbit in a sunny meadow from Big Buck Bunny",
+    "width": 640,
+    "height": 360,
+    "duration": 10,
+    "tags": ["animation", "rabbit", "cartoon", "meadow"],
+    "credit": "Big Buck Bunny © Blender Foundation (CC BY 3.0)"
+  }
+]

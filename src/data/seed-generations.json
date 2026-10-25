@@ -1,0 +1,122 @@
+[
+  {
+    "id": "gen-012",
+    "type": "image",
+    "prompt": "A professional portrait photograph of a smiling 31-year-old redheaded woman with warm brown eyes and softly tousled auburn hair framing her face. She is turned slightly towards the viewer, offering a genuine and approachable expression. She is wearing a cream-colored cashmere sweater and delicate gold earrings. The background is a softly blurred expanse of muted grey and beige tones, suggesting a modern art gallery. There is subtle directional lighting.",
+    "model": "fomi-realism",
+    "aspectRatio": "3:4",
+    "style": "editorial",
+    "createdAt": "2026-10-25T09:42:00.000Z",
+    "mediaIds": ["img-20", "img-02", "img-01", "img-03"]
+  },
+  {
+    "id": "gen-011",
+    "type": "image",
+    "prompt": "Editorial studio portraits on soft pastel backdrops, natural skin texture, 85mm lens, shallow depth of field.",
+    "model": "fomi-realism",
+    "aspectRatio": "3:4",
+    "style": "editorial",
+    "createdAt": "2026-10-25T08:15:00.000Z",
+    "mediaIds": ["img-18", "img-19", "img-17", "img-04"]
+  },
+  {
+    "id": "gen-010",
+    "type": "video",
+    "prompt": "Slow macro shot of a pink flower swaying in a gentle breeze, shallow depth of field.",
+    "model": "fomi-motion",
+    "aspectRatio": "16:9",
+    "style": "cinematic",
+    "createdAt": "2026-10-24T18:30:00.000Z",
+    "mediaIds": ["vid-01", "vid-02"]
+  },
+  {
+    "id": "gen-009",
+    "type": "image",
+    "prompt": "Turquoise alpine lakes surrounded by jagged snow-capped peaks, crisp morning light, ultra wide.",
+    "model": "fomi-realism",
+    "aspectRatio": "4:3",
+    "style": "none",
+    "createdAt": "2026-10-24T14:05:00.000Z",
+    "mediaIds": ["img-06", "img-34", "img-13", "img-14"]
+  },
+  {
+    "id": "gen-008",
+    "type": "image",
+    "prompt": "The Eiffel Tower at dusk under candy-pink clouds, dreamy pastel color grade.",
+    "model": "fomi-artistic",
+    "aspectRatio": "3:4",
+    "style": "film",
+    "createdAt": "2026-10-23T19:48:00.000Z",
+    "mediaIds": ["img-09", "img-10", "img-44", "img-45"]
+  },
+  {
+    "id": "gen-007",
+    "type": "image",
+    "prompt": "Liquid marble in pink, teal and violet, glossy 3D render, soft studio lighting.",
+    "model": "fomi-artistic",
+    "aspectRatio": "1:1",
+    "style": "3d-render",
+    "createdAt": "2026-10-23T11:20:00.000Z",
+    "mediaIds": ["img-23", "img-24", "img-25", "img-30"]
+  },
+  {
+    "id": "gen-006",
+    "type": "video",
+    "prompt": "A lone hero facing a dragon on a snowy ridge, epic fantasy animation, sweeping camera move.",
+    "model": "fomi-cinema",
+    "aspectRatio": "16:9",
+    "style": "cinematic",
+    "createdAt": "2026-10-22T16:10:00.000Z",
+    "mediaIds": ["vid-03", "vid-04"]
+  },
+  {
+    "id": "gen-005",
+    "type": "image",
+    "prompt": "A cozy cat portrait with soft window light and creamy bokeh.",
+    "model": "fomi-realism",
+    "aspectRatio": "1:1",
+    "style": "none",
+    "createdAt": "2026-10-22T09:00:00.000Z",
+    "mediaIds": ["img-11", "img-12"]
+  },
+  {
+    "id": "gen-004",
+    "type": "image",
+    "prompt": "Misty forest valleys at sunrise, volumetric light, cinematic wide shot.",
+    "model": "fomi-realism",
+    "aspectRatio": "16:9",
+    "style": "cinematic",
+    "createdAt": "2026-10-21T07:35:00.000Z",
+    "mediaIds": ["img-08", "img-07", "img-15", "img-05"]
+  },
+  {
+    "id": "gen-003",
+    "type": "image",
+    "prompt": "Deep-space nebula and Earth from orbit, NASA-style photography, rich color.",
+    "model": "fomi-artistic",
+    "aspectRatio": "1:1",
+    "style": "none",
+    "createdAt": "2026-10-20T21:12:00.000Z",
+    "mediaIds": ["img-26", "img-27", "img-28", "img-14"]
+  },
+  {
+    "id": "gen-002",
+    "type": "image",
+    "prompt": "Street-style fashion editorial, bold color blocking, urban backdrop.",
+    "model": "fomi-realism",
+    "aspectRatio": "3:4",
+    "style": "editorial",
+    "createdAt": "2026-10-19T13:28:00.000Z",
+    "mediaIds": ["img-42", "img-41", "img-43", "img-37"]
+  },
+  {
+    "id": "gen-001",
+    "type": "image",
+    "prompt": "Golden-hour city skylines, glass towers catching the light, aerial perspective.",
+    "model": "fomi-realism",
+    "aspectRatio": "4:3",
+    "style": "cinematic",
+    "createdAt": "2026-10-18T17:55:00.000Z",
+    "mediaIds": ["img-32", "img-31", "img-33", "img-39"]
+  }
+]
