@@ -1,5 +1,6 @@
 import {
   Folder,
+  GitBranch,
   Headphones,
   House,
   Image as ImageIcon,
@@ -18,6 +19,7 @@ export const PRIMARY_NAV = [
 ];
 
 export const SECONDARY_NAV = [
+  { href: "/studio", label: "Studio", icon: GitBranch },
   { href: "/gallery", label: "Gallery", icon: Images },
   { href: "/support", label: "Support", icon: Headphones },
 ];
