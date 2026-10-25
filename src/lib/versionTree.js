@@ -38,3 +38,15 @@ export function getLineage(byId, id) {
   }
   return lineage;
 }
+
+/** Who to compare a version with by default: its parent, else any other version. */
+export function defaultComparePartner(tree, version) {
+  if (version.parentId) return version.parentId;
+  return tree.rows.find((row) => !row.version.pending && row.version.id !== version.id)?.version.id;
+}
+
+/** The selectable version `offset` rows away from `id` in tree order. */
+export function neighbourVersion(tree, id, offset) {
+  const ids = tree.rows.filter((row) => !row.version.pending).map((row) => row.version.id);
+  return ids[ids.indexOf(id) + offset];
+}

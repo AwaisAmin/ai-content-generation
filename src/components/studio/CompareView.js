@@ -78,7 +78,7 @@ export default function CompareView() {
   }, [compare]);
 
   return (
-    <div className="flex min-h-0 flex-1 flex-col">
+    <div className="flex flex-col lg:min-h-0 lg:flex-1">
       <div className="flex flex-wrap items-center gap-2 px-5 pb-3">
         <span className="text-sm font-medium">
           A · {a.id}
@@ -102,14 +102,14 @@ export default function CompareView() {
           value={mode}
           onChange={setMode}
           options={MODES}
-          className="ml-auto w-56"
+          className="w-56 max-sm:w-full sm:ml-auto"
         />
         <Button size="sm" icon={Check} onClick={() => compare(null)}>
           Done
         </Button>
       </div>
 
-      <div className="relative mx-5 min-h-0 flex-1">
+      <div className="relative mx-5 h-[min(55dvh,520px)] shrink-0 lg:h-auto lg:min-h-0 lg:flex-1">
         {mode === "side" ? (
           <div className="grid size-full grid-cols-2 gap-4">
             <Frame version={a} label={`A · ${a.id}`} />

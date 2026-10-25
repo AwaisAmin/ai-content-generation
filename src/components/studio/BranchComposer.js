@@ -1,6 +1,6 @@
 "use client";
 
-import { useId, useState } from "react";
+import { useId, useRef, useState } from "react";
 import { GitBranch, Loader2, RotateCw, X } from "lucide-react";
 import PromptDiff from "@/components/studio/PromptDiff";
 import { useStudio } from "@/components/studio/StudioProvider";
@@ -16,6 +16,7 @@ import {
   STYLES,
 } from "@/config/generation";
 import { BRANCH_OPERATIONS, OPERATIONS } from "@/config/studio";
+import { useHotkeys } from "@/hooks/useHotkeys";
 import { cn } from "@/lib/cn";
 
 const OPERATION_OPTIONS = BRANCH_OPERATIONS.map((value) => ({
@@ -40,6 +41,20 @@ export default function BranchComposer({ parent }) {
     count: parent.outputs.length || 4,
   });
   const promptId = useId();
+  const promptRef = useRef(null);
+
+  // V / R / X pick the operation; Refine and Remix jump into the prompt.
+  function chooseOperation(next) {
+    setOperation(next);
+    if (next !== "vary") {
+      requestAnimationFrame(() => {
+        const textarea = promptRef.current;
+        textarea?.focus();
+        textarea?.setSelectionRange(textarea.value.length, textarea.value.length);
+      });
+    }
+  }
+  useHotkeys({ v: () => chooseOperation("vary"), r: () => chooseOperation("refine"), x: () => chooseOperation("remix") });
 
   const isVary = operation === "vary";
   const isRemix = operation === "remix";
@@ -107,6 +122,7 @@ export default function BranchComposer({ parent }) {
         Prompt for the new version
       </label>
       <textarea
+        ref={promptRef}
         id={promptId}
         value={draftPrompt}
         onChange={(event) => setPrompt(event.target.value)}

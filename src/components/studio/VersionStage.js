@@ -11,6 +11,7 @@ import { getAspectRatio } from "@/config/generation";
 import { cn } from "@/lib/cn";
 import { downloadFile, outputFilename } from "@/lib/download";
 import { formatRelativeTime } from "@/lib/format";
+import { defaultComparePartner } from "@/lib/versionTree";
 
 /**
  * The selected version, big. Its hero output fills the stage; the strip
@@ -20,13 +21,17 @@ import { formatRelativeTime } from "@/lib/format";
 export default function VersionStage({ className, children }) {
   const { selected: version, compared, tree, compare, patchVersion } = useStudio();
   // Default comparison partner: the parent ("what did this change fix?").
-  const defaultPartner =
-    version.parentId ?? tree.rows.find((row) => !row.version.pending && row.version.id !== version.id)?.version.id;
+  const defaultPartner = defaultComparePartner(tree, version);
   const hero = version.outputs[version.heroIndex] ?? version.outputs[0];
   const ratio = getAspectRatio(version.aspectRatio);
 
   return (
-    <section aria-labelledby="stage-heading" className={cn("flex min-h-0 flex-col", className)}>
+    <section
+      aria-labelledby="stage-heading"
+      // `relative`: contains absolutely positioned sr-only labels inside this
+      // scroller, so they can't stretch the page when it scrolls (mobile).
+      className={cn("relative flex min-h-0 flex-col max-lg:overflow-y-auto", className)}
+    >
       <header className="flex flex-wrap items-center gap-x-3 gap-y-2 px-5 pt-4 pb-3">
         <h2 id="stage-heading" className="text-lg font-semibold tracking-tight">
           {version.id}
@@ -73,7 +78,10 @@ export default function VersionStage({ className, children }) {
         <>
           {/* Hero: as large as the stage allows at its own ratio. The stage is a
               size container, so the width is min(stage width, stage height × ratio). */}
-          <div className="relative mx-5 min-h-0 flex-1" style={{ containerType: "size" }}>
+          <div
+            className="relative mx-5 h-[min(62dvh,560px)] shrink-0 lg:h-auto lg:min-h-0 lg:flex-1"
+            style={{ containerType: "size" }}
+          >
             <div className="absolute inset-0 flex items-center justify-center">
               <div
                 className="relative overflow-hidden rounded-[1.5rem] bg-surface-sunken shadow-lifted"

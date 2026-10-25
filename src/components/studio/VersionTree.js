@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef } from "react";
+import { useEffect, useId, useRef } from "react";
 import Image from "next/image";
 import { AlertTriangle, Star } from "lucide-react";
 import { useStudio } from "@/components/studio/StudioProvider";
@@ -21,10 +21,12 @@ const ROW_MID = 28;
  * git graph. Follows the WAI-ARIA tree pattern: roving focus, selection
  * follows focus; ↑/↓ move, ← goes to the parent, → to the first child.
  */
-export default function VersionTree({ className }) {
+export default function VersionTree({ className, onPick, hideHeading = false }) {
   const { tree, selectedId, compareId, select, compare } = useStudio();
   const itemRefs = useRef(new Map());
   const listRef = useRef(null);
+  // Unique per instance: the tree can be mounted twice (inline + drawer).
+  const headingId = useId();
   const { rows, byId, children } = tree;
   // Placeholder rows for branches in flight can't be selected.
   const navigable = rows.filter((row) => !row.version.pending);
@@ -59,18 +61,20 @@ export default function VersionTree({ className }) {
 
   return (
     <div className={cn("flex min-h-0 flex-col", className)}>
-      <div className="flex items-baseline justify-between px-4 pt-4 pb-2">
-        <h2 id="versions-heading" className="text-sm font-semibold">
+      <div className={cn("flex items-baseline justify-between px-4 pb-2", hideHeading ? "pt-3" : "pt-4")}>
+        <h2 id={headingId} className={cn("text-sm font-semibold", hideHeading && "sr-only")}>
           Versions
         </h2>
         <span className="text-[11px] text-muted">{navigable.length} total</span>
       </div>
-      <p className="px-4 pb-2 text-[10.5px] text-muted">⇧-click a version to compare it.</p>
+      <p className="px-4 pb-2 text-[10.5px] text-muted max-lg:hidden">
+        ⇧-click to compare · press <kbd className="font-sans font-semibold">?</kbd> for shortcuts
+      </p>
 
       <ul
         ref={listRef}
         role="tree"
-        aria-labelledby="versions-heading"
+        aria-labelledby={headingId}
         onKeyDown={handleKeyDown}
         className="min-h-0 flex-1 overflow-y-auto px-2 pb-4 scrollbar-thin"
       >
@@ -107,7 +111,11 @@ export default function VersionTree({ className }) {
               onClick={
                 version.pending
                   ? undefined
-                  : (event) => (event.shiftKey ? compare(version.id) : move(version.id))
+                  : (event) => {
+                      if (event.shiftKey) compare(version.id);
+                      else move(version.id);
+                      onPick?.();
+                    }
               }
               className={cn(
                 "group relative flex h-14 items-center rounded-2xl pr-2 duration-200",

@@ -31,3 +31,18 @@ export const OPERATIONS = {
 };
 
 export const BRANCH_OPERATIONS = ["vary", "refine", "remix"];
+
+/** Shown in the "?" shortcuts sheet. */
+export const SHORTCUTS = [
+  { keys: ["J", "K"], description: "Next / previous version" },
+  { keys: ["↑", "↓", "←", "→"], description: "Move through the tree (when focused)" },
+  { keys: ["V"], description: "Vary the selected version" },
+  { keys: ["R"], description: "Refine — jump into the prompt" },
+  { keys: ["X"], description: "Remix — change style, model or ratio" },
+  { keys: ["Ctrl", "Enter"], description: "Generate the branch" },
+  { keys: ["C"], description: "Compare with the parent / exit compare" },
+  { keys: ["⇧", "Click"], description: "Compare with any version" },
+  { keys: ["S"], description: "Select (star) the version" },
+  { keys: ["Esc"], description: "Leave compare, close panels" },
+  { keys: ["?"], description: "Show these shortcuts" },
+];
