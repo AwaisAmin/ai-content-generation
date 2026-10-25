@@ -8,6 +8,13 @@
  * Warm, editorial palette taken from the mockup: cream canvas, blush panels
  * and a terracotta accent. Every colour is a variable so dark mode is a
  * token swap, never a per-component override.
+ *
+ * Contrast (WCAG 2.2 AA), checked against every surface they sit on:
+ * - foreground / muted / accent-text / danger: >= 4.5:1 for body text.
+ * - accent (button fills, focus ring, indicators): white text on it clears
+ *   4.5:1 and the ring clears 3:1 on every surface. It's a shade deeper
+ *   than the mockup's coral, which fails at 2.4:1 with white text.
+ * - subtle: decoration only (dividers, drag handle) — never text.
  * ------------------------------------------------------------------------- */
 :root {
   --background: #fbf7f5;
@@ -17,19 +24,20 @@
   --surface-muted: #f7ece8;
   --surface-sunken: #f1e2dc;
 
-  --muted: #8a7d78;
+  --muted: #6e625c;
   --subtle: #b9aca7;
 
   --border: #ecdcd6;
   --border-strong: #2b2523;
 
-  --accent: #e8907a;
-  --accent-hover: #df7c64;
+  --accent: #bb5843;
+  --accent-hover: #a84c38;
   --accent-soft: #fbe3dc;
   --accent-foreground: #ffffff;
+  --accent-text: #a64731;
 
-  --ring: #d9826b;
-  --danger: #d4483b;
+  --ring: #bb5843;
+  --danger: #b5362b;
 
   --shadow-color: 24 10% 20%;
 }
@@ -52,6 +60,7 @@
   --accent-hover: #f2ad9b;
   --accent-soft: #3a2621;
   --accent-foreground: #1d1917;
+  --accent-text: #ec9a85;
 
   --ring: #ec9a85;
   --danger: #f06b5e;
@@ -73,6 +82,7 @@
   --color-accent-hover: var(--accent-hover);
   --color-accent-soft: var(--accent-soft);
   --color-accent-foreground: var(--accent-foreground);
+  --color-accent-text: var(--accent-text);
   --color-ring: var(--ring);
   --color-danger: var(--danger);
 

@@ -8,6 +8,7 @@ import { getAspectRatio } from "@/config/generation";
 import { cn } from "@/lib/cn";
 import { downloadFile, outputFilename } from "@/lib/download";
 import { formatDuration } from "@/lib/format";
+import { prefersReducedMotion } from "@/lib/motion";
 
 // Approximate tile widths: the feed's container queries give 2 columns on
 // phones / narrow feeds and 4 once the feed is wide enough.
@@ -24,6 +25,7 @@ export default function MediaTile({ output, aspectRatio, eager = false, onOpen }
   const ratio = getAspectRatio(aspectRatio);
 
   function playPreview() {
+    if (prefersReducedMotion()) return;
     videoRef.current?.play().catch(() => {});
   }
 

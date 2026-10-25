@@ -40,7 +40,7 @@ export default function StylePicker({ value, onChange }) {
                   className="object-cover transition-transform duration-500 ease-out-soft group-hover/style:scale-110"
                 />
               ) : (
-                <Ban className="absolute inset-0 m-auto size-5 text-subtle" aria-hidden="true" />
+                <Ban className="absolute inset-0 m-auto size-5 text-muted" aria-hidden="true" />
               )}
               {value === style.value && (
                 <span className="absolute top-1 right-1 flex size-4 items-center justify-center rounded-full bg-accent text-accent-foreground shadow-soft">

@@ -186,7 +186,7 @@ export default function Select({
                 )}
               </span>
               {isSelected && (
-                <Check className="size-3.5 text-accent" aria-hidden="true" />
+                <Check className="size-3.5 text-accent-text" aria-hidden="true" />
               )}
             </li>
           );

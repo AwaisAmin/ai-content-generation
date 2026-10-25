@@ -40,7 +40,7 @@ export default function Accordion({
         >
           {title}
           {meta && (
-            <span className="ml-2 max-w-28 truncate rounded-full bg-accent-soft px-2 py-0.5 text-[11px] font-medium text-accent">
+            <span className="ml-2 max-w-28 truncate rounded-full bg-accent-soft px-2 py-0.5 text-[11px] font-medium text-accent-text">
               {meta}
             </span>
           )}

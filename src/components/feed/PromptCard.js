@@ -57,7 +57,7 @@ export default function PromptCard({ generation, headingId, onReuse }) {
             aria-expanded={expanded}
             aria-controls={textId}
             onClick={() => setExpanded((value) => !value)}
-            className="mt-1 rounded text-[11px] font-medium text-accent hover:underline"
+            className="mt-1 rounded text-[11px] font-medium text-accent-text hover:underline"
           >
             {expanded ? "Show less" : "Show more"}
           </button>

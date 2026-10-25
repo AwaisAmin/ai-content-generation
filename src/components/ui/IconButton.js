@@ -4,7 +4,7 @@ const VARIANTS = {
   ghost: "text-foreground/80 hover:bg-surface-sunken hover:text-foreground",
   surface:
     "bg-surface/85 text-foreground shadow-soft backdrop-blur-md hover:bg-surface",
-  active: "bg-accent-soft text-accent",
+  active: "bg-accent-soft text-accent-text",
 };
 
 const SIZES = {

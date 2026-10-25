@@ -1,6 +1,7 @@
 "use client";
 
 import { useCallback, useEffect, useRef, useState } from "react";
+import { scrollBehavior } from "@/lib/motion";
 
 /**
  * Enhances a horizontal scroller:
@@ -59,7 +60,7 @@ export function useHorizontalScroll(contentKey) {
   const scrollByPage = useCallback((direction) => {
     const node = ref.current;
     if (!node) return;
-    node.scrollBy({ left: direction * node.clientWidth * 0.8, behavior: "smooth" });
+    node.scrollBy({ left: direction * node.clientWidth * 0.8, behavior: scrollBehavior() });
   }, []);
 
   return { ref, ...edges, scrollByPage };

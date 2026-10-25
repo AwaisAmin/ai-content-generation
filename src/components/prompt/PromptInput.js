@@ -63,13 +63,13 @@ export default function PromptInput({
         />
 
         <div className="pointer-events-none absolute inset-x-3 bottom-3 flex items-end justify-between gap-2">
-          <span className="pl-1 text-[11px] text-subtle" aria-live="polite">
+          <span className="pl-1 text-[11px] text-muted" aria-live="polite">
             {showCounter ? (
               <span className={cn(value.length >= PROMPT_MAX_LENGTH && "text-danger")}>
                 {value.length} / {PROMPT_MAX_LENGTH}
               </span>
             ) : runningCount > 0 ? (
-              <span className="inline-flex items-center gap-1.5 text-accent">
+              <span className="inline-flex items-center gap-1.5 text-accent-text">
                 <span className="size-1.5 animate-pulse rounded-full bg-accent" aria-hidden="true" />
                 {runningCount} generating…
               </span>

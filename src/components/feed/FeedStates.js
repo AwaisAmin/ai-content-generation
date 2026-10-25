@@ -47,7 +47,7 @@ export function FeedEmpty({ feedType }) {
   const [title, body] = EMPTY_COPY[feedType ?? "all"];
   return (
     <div className="flex flex-col items-center gap-4 rounded-card border border-dashed border-border px-6 py-20 text-center">
-      <span className="flex size-14 items-center justify-center rounded-3xl bg-accent-soft text-accent">
+      <span className="flex size-14 items-center justify-center rounded-3xl bg-accent-soft text-accent-text">
         <Sparkles className="size-6" aria-hidden="true" />
       </span>
       <div className="max-w-xs space-y-1">

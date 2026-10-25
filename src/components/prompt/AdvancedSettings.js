@@ -7,7 +7,7 @@ import { GUIDANCE_RANGE, SEED_MAX } from "@/config/generation";
 
 const fieldLabel = "text-xs font-medium";
 const fieldInput =
-  "w-full rounded-xl border border-border bg-surface-muted px-3 py-2 text-xs outline-none transition-[border-color,box-shadow] placeholder:text-subtle focus:border-subtle focus:ring-4 focus:ring-accent/15";
+  "w-full rounded-xl border border-border bg-surface-muted px-3 py-2 text-xs outline-none transition-[border-color,box-shadow] placeholder:text-muted focus:border-subtle focus:ring-4 focus:ring-accent/15";
 
 export default function AdvancedSettings({ settings, update }) {
   const id = useId();
@@ -53,7 +53,7 @@ export default function AdvancedSettings({ settings, update }) {
           aria-describedby={`${id}-guidance-hint`}
           className="w-full accent-accent"
         />
-        <p id={`${id}-guidance-hint`} className="flex justify-between text-[10px] text-subtle">
+        <p id={`${id}-guidance-hint`} className="flex justify-between text-[10px] text-muted">
           <span>Creative</span>
           <span>Precise</span>
         </p>
@@ -82,7 +82,7 @@ export default function AdvancedSettings({ settings, update }) {
             onClick={() => update("seed", String(Math.floor(Math.random() * SEED_MAX)))}
           />
         </div>
-        <p id={`${id}-seed-hint`} className="text-[10px] text-subtle">
+        <p id={`${id}-seed-hint`} className="text-[10px] text-muted">
           Reuse a seed to get consistent results. Leave empty for random.
         </p>
       </div>

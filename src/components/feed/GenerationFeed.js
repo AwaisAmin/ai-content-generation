@@ -8,6 +8,7 @@ import PendingGeneration from "@/components/feed/PendingGeneration";
 import { FeedEmpty, FeedError, FeedSkeleton } from "@/components/feed/FeedStates";
 import { useWorkspace } from "@/components/workspace/WorkspaceProvider";
 import Button from "@/components/ui/Button";
+import { scrollBehavior } from "@/lib/motion";
 
 // Only needed once someone opens an output — keep it out of the first load.
 const Lightbox = dynamic(() => import("@/components/feed/Lightbox"), { ssr: false });
@@ -55,7 +56,7 @@ export default function GenerationFeed() {
     if (!newestJobId) return;
     document
       .getElementById(newestJobId)
-      ?.scrollIntoView({ behavior: "smooth", block: "nearest" });
+      ?.scrollIntoView({ behavior: scrollBehavior(), block: "nearest" });
   }, [newestJobId]);
 
   // Stable so memoised rows don't re-render when the viewer opens.
@@ -130,7 +131,7 @@ export default function GenerationFeed() {
         )}
 
         {!nextCursor && (
-          <p className="py-6 text-center text-xs text-subtle">
+          <p className="py-6 text-center text-xs text-muted">
             That&apos;s everything — you&apos;ve reached your first generation.
           </p>
         )}

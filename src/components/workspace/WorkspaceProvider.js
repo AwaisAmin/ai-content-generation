@@ -12,6 +12,7 @@ import {
 import { useRouter } from "next/navigation";
 import { MAX_CONCURRENT_GENERATIONS } from "@/config/generation";
 import { createGeneration, fetchGenerations, fetchHistory } from "@/lib/api";
+import { scrollBehavior } from "@/lib/motion";
 
 /*
  * Client-side state for one workspace screen: history strip, results feed,
@@ -266,7 +267,7 @@ export function WorkspaceProvider({ feedType, children }) {
       window.history.replaceState(null, "", `#generation-${id}`);
       dispatch({ type: "highlight/set", id });
       const element = await waitForElement(`generation-${id}`);
-      element?.scrollIntoView({ behavior: "smooth", block: "start" });
+      element?.scrollIntoView({ behavior: scrollBehavior(), block: "start" });
 
       clearTimeout(highlightTimer.current);
       highlightTimer.current = setTimeout(

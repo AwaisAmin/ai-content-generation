@@ -37,7 +37,7 @@ export default function HistoryStrip() {
         </h2>
         <Link
           href="/assets"
-          className="rounded text-[10px] text-muted transition-colors hover:text-accent"
+          className="rounded text-[10px] text-muted transition-colors hover:text-accent-text"
         >
           View All
         </Link>

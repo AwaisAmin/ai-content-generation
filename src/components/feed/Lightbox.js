@@ -44,7 +44,9 @@ export default function Lightbox({ generation, index, onIndexChange, onClose }) 
       onClose={onClose}
       onKeyDown={handleKeyDown}
       onClick={(event) => event.target === dialogRef.current && dialogRef.current.close()}
-      className="m-auto h-dvh max-h-none w-dvw max-w-none bg-transparent p-0 text-white backdrop:bg-black/80 backdrop:backdrop-blur-md transition-[opacity,scale] duration-300 ease-out-soft starting:scale-[0.98] starting:opacity-0"
+      // The dim layer lives on the dialog itself (not ::backdrop) so contrast
+      // checkers and forced-colors mode see the real background behind text.
+      className="m-auto h-dvh max-h-none w-dvw max-w-none bg-black/85 p-0 text-white backdrop:bg-transparent backdrop:backdrop-blur-md transition-[opacity,scale] duration-300 ease-out-soft starting:scale-[0.98] starting:opacity-0"
     >
       <div className="pointer-events-none flex h-full flex-col">
         <header className="pointer-events-auto flex items-center justify-between gap-4 px-4 py-3 md:px-6">

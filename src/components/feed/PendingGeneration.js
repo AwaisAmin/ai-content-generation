@@ -32,7 +32,7 @@ export default function PendingGeneration({ job, onCancel, onRetry, onDismiss })
           id={headingId}
           className={cn(
             "flex items-center gap-1.5 text-[11px] font-medium",
-            isFailed ? "text-danger" : "text-accent",
+            isFailed ? "text-danger" : "text-accent-text",
           )}
         >
           {isFailed ? (
