@@ -15,6 +15,9 @@ const nextConfig = {
   turbopack: {
     rules: {
       "*.css": {
+        // `as: "*.css"` would turn `*.module.css` into a global stylesheet
+        // and break CSS Modules, so Tailwind only processes plain CSS files.
+        condition: { not: { path: "*.module.css" } },
         loaders: ["@tailwindcss/turbopack"],
         as: "*.css",
       },

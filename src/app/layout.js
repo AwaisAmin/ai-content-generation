@@ -1,4 +1,5 @@
 import { Poppins } from "next/font/google";
+import ThemeScript from "@/components/layout/ThemeScript";
 import "./globals.css";
 
 const poppins = Poppins({
@@ -32,6 +33,9 @@ export default function RootLayout({ children }) {
       className={`${poppins.variable} h-full antialiased`}
       suppressHydrationWarning
     >
+      <head>
+        <ThemeScript />
+      </head>
       <body className="min-h-full flex flex-col" suppressHydrationWarning>
         {children}
       </body>
