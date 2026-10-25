@@ -25,7 +25,7 @@ export default function PendingGeneration({ job, onCancel, onRetry, onDismiss })
       id={job.id}
       aria-labelledby={headingId}
       aria-busy={!isFailed}
-      className="grid scroll-mt-24 gap-3 transition-[opacity,translate] duration-500 ease-out-soft starting:-translate-y-2 starting:opacity-0 md:scroll-mt-[calc(5rem+92px+2rem)] lg:grid-cols-[220px_minmax(0,1fr)]"
+      className="grid scroll-mt-24 gap-3 transition-[opacity,translate] duration-500 ease-out-soft starting:-translate-y-2 starting:opacity-0 md:scroll-mt-[calc(5rem+92px+2rem)] @3xl/feed:grid-cols-[220px_minmax(0,1fr)] @6xl/feed:grid-cols-[260px_minmax(0,1fr)]"
     >
       <div className="flex flex-col gap-3 rounded-card bg-surface-muted p-4">
         <h2
@@ -43,7 +43,7 @@ export default function PendingGeneration({ job, onCancel, onRetry, onDismiss })
           {isFailed ? "Generation failed" : `Generating ${settings.count} ${settings.type}${settings.count > 1 ? "s" : ""}…`}
         </h2>
 
-        <p className="line-clamp-5 text-[12.5px] leading-relaxed text-foreground/70">
+        <p className="line-clamp-3 text-[12.5px] sm:line-clamp-5 leading-relaxed text-foreground/70">
           {settings.prompt}
         </p>
 
@@ -88,7 +88,7 @@ export default function PendingGeneration({ job, onCancel, onRetry, onDismiss })
           </Button>
         </div>
       ) : (
-        <div className={cn("grid content-start gap-3", isVideo ? "sm:grid-cols-2" : "grid-cols-2 sm:grid-cols-4")}>
+        <div className={cn("grid content-start gap-3", isVideo ? "@lg/feed:grid-cols-2" : "grid-cols-2 @lg/feed:grid-cols-4")}>
           {Array.from({ length: settings.count }, (_, index) => (
             <Skeleton
               key={index}

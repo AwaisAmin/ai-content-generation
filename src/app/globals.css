@@ -152,6 +152,13 @@
   html:has(dialog[open]:modal) {
     overflow: hidden;
   }
+
+  /* So does the mobile composer sheet. */
+  @media (width < 48rem) {
+    html:has([data-scroll-lock="true"]) {
+      overflow: hidden;
+    }
+  }
 }
 
 @layer utilities {

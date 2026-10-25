@@ -7,9 +7,9 @@ export function FeedSkeleton({ rows = 2 }) {
   return (
     <div aria-hidden="true" className="space-y-6">
       {Array.from({ length: rows }, (_, row) => (
-        <div key={row} className="grid gap-3 lg:grid-cols-[220px_minmax(0,1fr)]">
-          <Skeleton className="h-32 lg:h-auto" />
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-4">
+        <div key={row} className="grid gap-3 @3xl/feed:grid-cols-[220px_minmax(0,1fr)] @6xl/feed:grid-cols-[260px_minmax(0,1fr)]">
+          <Skeleton className="h-32 @3xl/feed:h-auto" />
+          <div className="grid grid-cols-2 gap-3 @lg/feed:grid-cols-4">
             {Array.from({ length: 4 }, (_, cell) => (
               <Skeleton key={cell} className="aspect-3/4 rounded-2xl" />
             ))}

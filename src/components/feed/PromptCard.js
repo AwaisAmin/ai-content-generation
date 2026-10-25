@@ -46,7 +46,7 @@ export default function PromptCard({ generation, headingId, onReuse }) {
           id={textId}
           className={cn(
             "text-[12.5px] leading-relaxed text-foreground/85",
-            isLong && !expanded && "line-clamp-5 lg:line-clamp-8",
+            isLong && !expanded && "line-clamp-3 sm:line-clamp-5 lg:line-clamp-8",
           )}
         >
           {prompt}

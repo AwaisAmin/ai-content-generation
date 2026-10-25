@@ -13,7 +13,8 @@ import { WorkspaceProvider } from "@/components/workspace/WorkspaceProvider";
 export default function WorkspaceShell({ title, feedType, defaultType = "image" }) {
   return (
     <WorkspaceProvider feedType={feedType}>
-      <div className="mx-auto flex w-full max-w-[1680px] flex-1 flex-col gap-4 px-4 pb-6 md:px-8">
+      {/* Mobile: extra bottom room so the last row clears the composer bar. */}
+      <div className="mx-auto flex w-full max-w-[1680px] flex-1 flex-col gap-4 px-4 pb-24 md:px-8 md:pb-6">
         <h1 className="sr-only">{title}</h1>
 
         {/* Desktop: the strip floats over the feed as it scrolls, like the mockup. */}
@@ -21,14 +22,15 @@ export default function WorkspaceShell({ title, feedType, defaultType = "image" 
           <HistoryStrip />
         </div>
 
-        <div className="grid flex-1 gap-6 md:grid-cols-[280px_minmax(0,1fr)] xl:grid-cols-[300px_minmax(0,1fr)]">
-          {/* Sticks below header (5rem) + history strip (92px) + gap; scrolls
-              internally if Advance and Styles are both expanded. */}
+        <div className="grid flex-1 md:grid-cols-[280px_minmax(0,1fr)] md:gap-6 xl:grid-cols-[300px_minmax(0,1fr)] 2xl:grid-cols-[320px_minmax(0,1fr)]">
+          {/* md+: sticks below header (5rem) + history strip (92px) + gap and
+              scrolls internally if Advance and Styles are both expanded.
+              Mobile: its content is fixed (composer bar + sheet). */}
           <aside className="scrollbar-thin md:sticky md:top-[calc(5rem+92px+1rem)] md:max-h-[calc(100dvh-5rem-92px-2rem)] md:self-start md:overflow-y-auto">
             <PromptPanel defaultType={defaultType} />
           </aside>
 
-          <section aria-label="Generations" className="min-w-0">
+          <section aria-label="Generations" className="@container/feed min-w-0">
             <GenerationFeed />
           </section>
         </div>

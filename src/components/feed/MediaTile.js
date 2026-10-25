@@ -9,9 +9,9 @@ import { cn } from "@/lib/cn";
 import { downloadFile, outputFilename } from "@/lib/download";
 import { formatDuration } from "@/lib/format";
 
-// Feed column widths: 2 cols on phones, 4 on tablet+, narrower beside the
-// prompt card on desktop.
-const IMAGE_SIZES = "(min-width: 1024px) 20vw, (min-width: 640px) 25vw, 50vw";
+// Approximate tile widths: the feed's container queries give 2 columns on
+// phones / narrow feeds and 4 once the feed is wide enough.
+const IMAGE_SIZES = "(min-width: 1280px) 18vw, (min-width: 768px) 25vw, 50vw";
 
 /**
  * A single generated image or video. The whole tile opens the lightbox;

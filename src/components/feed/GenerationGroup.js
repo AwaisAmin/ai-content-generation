@@ -19,7 +19,7 @@ function GenerationGroup({ generation, highlighted, eager, onOpen, onReuse }) {
       id={`generation-${generation.id}`}
       aria-labelledby={headingId}
       className={cn(
-        "grid scroll-mt-24 gap-3 rounded-[1.6rem] transition-[opacity,translate] duration-500 ease-out-soft starting:translate-y-3 starting:opacity-0 md:scroll-mt-[calc(5rem+92px+2rem)] lg:grid-cols-[220px_minmax(0,1fr)]",
+        "grid scroll-mt-24 gap-3 rounded-[1.6rem] transition-[opacity,translate] duration-500 ease-out-soft starting:translate-y-3 starting:opacity-0 md:scroll-mt-[calc(5rem+92px+2rem)] @3xl/feed:grid-cols-[220px_minmax(0,1fr)] @6xl/feed:grid-cols-[260px_minmax(0,1fr)]",
         highlighted && "animate-highlight",
       )}
     >
@@ -28,7 +28,7 @@ function GenerationGroup({ generation, highlighted, eager, onOpen, onReuse }) {
       <div
         className={cn(
           "grid content-start gap-3",
-          isVideo ? "sm:grid-cols-2" : "grid-cols-2 sm:grid-cols-4",
+          isVideo ? "@lg/feed:grid-cols-2" : "grid-cols-2 @lg/feed:grid-cols-4",
         )}
       >
         {generation.outputs.map((output, index) => (
